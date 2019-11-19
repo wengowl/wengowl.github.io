@@ -1,0 +1,7 @@
+
+数据流程：client --> WAL/Memstore ---> flush hfile  --> major compaction hfies
+HBase会默认使用服务器生成的当前时间的时间戳。而HBase的删除操作并不是真正的删除，可以看成是含有Delete标记的特殊put，只是先给数据打上标记，
+时间戳小于这个删除时间的数据在下一次major compaction的时候才被真正的删除
+
+1. HBase 中没有update的概念，所有delete操作、put操作都是append操作
+2. 所有数据删除（delete、TTL过期、超过version）都是在major_compact时候执行的
